@@ -794,6 +794,16 @@ device_types:
     class: arm-dtb
     boot_method: uboot
 
+  socfpga_cyclone5_socrates:
+    name: 'socfpga-cyclone5-socrates'
+    mach: socfpga
+    class: arm-dtb
+    boot_method: barebox
+    filters:
+      - filters:
+          - blacklist:
+            - 'allmodconfig'
+
   snow:
     name: 'snow'
     mach: exynos
