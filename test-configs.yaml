@@ -423,6 +423,16 @@ device_types:
           defconfig:
             - 'allmodconfig'
 
+  imx27_phycard_s:
+    name: 'imx27-phytec-phycard-s-rdk'
+    mach: imx
+    class: arm-dtb
+    boot_method: barebox
+    filters:
+      - blacklist:
+          defconfig:
+            - 'allmodconfig'
+
   imx6q_nitrogen6x:
     name: 'imx6q-nitrogen6x'
     mach: imx
