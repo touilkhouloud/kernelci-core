@@ -1,0 +1,11 @@
+{% extends 'base/kernel-ci-base-tftp-deploy.jinja2' %}
+{% block actions %}
+
+- boot:
+    timeout:
+      minutes: 5
+    method: barebox
+    commands: ramdisk
+    prompts:
+      - '{{ rootfs_prompt }}'
+{% endblock %}
