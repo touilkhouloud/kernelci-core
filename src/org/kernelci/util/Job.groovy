@@ -43,8 +43,16 @@ def cloneKciCore(path, url, branch) {
     }
 }
 
-def dockerImageName(base, cc, cc_version, kernel_arch) {
-    def image_name = "${base}${cc}-${cc_version}"
+def dockerImageName(kci_core, base, build_env, kernel_arch) {
+    def image_name = "${base}${build_env}"
+    def cc = null
+
+    dir(kci_core) {
+        def build_env_raw = sh(
+            script: "./kci_build show_build_env --build-env=${build_env}",
+            returnStdout: true).trim()
+        cc = build_env_raw.tokenize('\n')[1]
+    }
 
     if (cc == "gcc") {
         def docker_arch
