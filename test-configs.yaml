@@ -98,6 +98,8 @@ test_plans:
 
   igt:
     rootfs: debian_stretch-igt_ramdisk
+    filters:
+      - blacklist: {kernel: ['4.20-']}
 
   kselftest:
     rootfs: buildroot_kselftest_ramdisk
@@ -1127,7 +1129,10 @@ test_configs:
     test_plans: [boot]
 
   - device_type: rk3399_gru_kevin
-    test_plans: [boot, v4l2_compliance_uvc]
+    test_plans:
+      - boot
+      - igt
+      - v4l2_compliance_uvc
 
   - device_type: rk3399_puma_haikou
     test_plans: [boot, kselftest]
