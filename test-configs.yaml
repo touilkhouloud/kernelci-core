@@ -6,12 +6,17 @@ file_system_types:
 
   buildroot:
     url: 'https://storage.kernelci.org/images/rootfs/buildroot/kci-2018.11'
-    arch_map:
+    arch_map: &buildroot_arch_map # hack
       arm64be: [{arch: arm64, endian: big}]
       armeb:   [{arch: arm,   endian: big}]
       armel:   [{arch: arm}]
       x86:     [{arch: i386}, {arch: x86_64}]
       mipsel:  [{arch: mips}]
+
+  # Hack to test buildroot_baseline on staging
+  buildroot_gtucker:
+    url: 'http://staging-storage.kernelci.org/images/rootfs/buildroot/gtucker/kci-2018.11-6-g4318b26cf8/'
+    arch_map: *buildroot_arch_map
 
   debian:
     url: 'http://storage.kernelci.org/images/rootfs/debian'
@@ -31,7 +36,7 @@ file_systems:
     nfs: '{arch}/base/rootfs.tar.xz'
 
   buildroot_baseline_ramdisk:
-    type: buildroot
+    type: buildroot_gtucker # hack
     ramdisk: '{arch}/baseline/rootfs.cpio.gz'
 
   buildroot_kselftest_ramdisk:
