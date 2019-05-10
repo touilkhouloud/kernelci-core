@@ -20,9 +20,13 @@ file_system_types:
 
   debian:
     url: 'http://storage.kernelci.org/images/rootfs/debian'
-    arch_map:
+    arch_map: &debian_arch_map
       armhf: [{arch: arm}]
       amd64: [{arch: x86_64}]
+
+  debian_staging:
+    url: 'http://staging-storage.kernelci.org/images/rootfs/debian'
+    arch_map: *debian_arch_map
 
 
 file_systems:
@@ -52,8 +56,8 @@ file_systems:
     ramdisk: 'stretch-igt/20190506.0/{arch}/rootfs.cpio.gz'
 
   debian_stretch-v4l2_ramdisk:
-    type: debian
-    ramdisk: 'stretch-v4l2/20190506.0/{arch}/rootfs.cpio.gz'
+    type: debian_staging
+    ramdisk: 'stretch-v4l2/20190509.0/{arch}/rootfs.cpio.gz'
 
 
 test_plan_default_filters:
