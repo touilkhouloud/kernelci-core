@@ -262,6 +262,39 @@ class cmd_generate_fragments(Command):
         return True
 
 
+class cmd_generate_defconfig_fragments(Command):
+    help = "Generate the config fragment files for a given defconfig"
+    args = [Args.defconfig, Args.kdir]
+
+    def __call__(self, configs, args):
+        fragments = configs['fragments']
+        split = args.defconfig.split('+')
+        defconfig = split.pop(0)
+        for part in split:
+            frag = fragments.get(part)
+            if frag and frag.configs:
+                kernelci.build.generate_config_fragment(frag, args.kdir)
+        return True
+
+
+class cmd_expand_fragments(Command):
+    help = "Expand a defconfig string with full fragment paths"
+    args = [Args.defconfig]
+
+    def __call__(self, configs, args):
+        frags = configs['fragments']
+        split = args.defconfig.split('+')
+        expanded = [split.pop(0)]
+        for part in split:
+            frag = frags.get(part)
+            if frag:
+                expanded.append(frag.path)
+            else:
+                expanded.append(part)
+        print('+'.join(expanded))
+        return True
+
+
 class cmd_push_tarball(Command):
     help = "Create and up a source tarball to the remote storage server"
     args = [Args.config, Args.kdir, Args.storage, Args.api, Args.token]
