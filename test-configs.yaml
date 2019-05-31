@@ -6,12 +6,17 @@ file_system_types:
 
   buildroot:
     url: 'https://storage.kernelci.org/images/rootfs/buildroot/kci-2018.11'
-    arch_map:
+    arch_map: &buildroot_arch_map # hack
       arm64be: [{arch: arm64, endian: big}]
       armeb:   [{arch: arm,   endian: big}]
       armel:   [{arch: arm}]
       x86:     [{arch: i386}, {arch: x86_64}]
       mipsel:  [{arch: mips}]
+
+  # Hack to test buildroot_baseline on staging
+  buildroot_gtucker:
+    url: 'http://staging-storage.kernelci.org/images/rootfs/buildroot/gtucker/kci-2018.11-6-g4318b26cf8/'
+    arch_map: *buildroot_arch_map
 
   debian:
     url: 'http://storage.kernelci.org/images/rootfs/debian'
@@ -35,6 +40,10 @@ file_systems:
   buildroot_nfs:
     type: buildroot
     nfs: '{arch}/base/rootfs.tar.xz'
+
+  buildroot_baseline_ramdisk:
+    type: buildroot_gtucker # hack
+    ramdisk: '{arch}/baseline/rootfs.cpio.gz'
 
   buildroot_kselftest_ramdisk:
     type: buildroot
@@ -70,11 +79,16 @@ test_plan_default_filters:
 
 test_plans:
 
-  boot:
-    rootfs: buildroot_ramdisk
+  baseline:
+    rootfs: buildroot_baseline_ramdisk
     filters:
       - blacklist: &kselftest_defconfig_filter
           defconfig: ['kselftest']
+
+  boot:
+    rootfs: buildroot_ramdisk
+    filters:
+      - blacklist: *kselftest_defconfig_filter
 
   boot_nfs:
     name: 'boot-nfs'
@@ -1167,7 +1181,10 @@ test_configs:
     test_plans: [boot]
 
   - device_type: rk3399_gru_kevin
-    test_plans: [boot, v4l2_compliance_uvc]
+    test_plans:
+      - baseline
+      - boot
+      - v4l2_compliance_uvc
 
   - device_type: rk3399_gru_kevin
     test_plans: [igt]
@@ -1184,7 +1201,15 @@ test_configs:
     test_plans: [boot]
 
   - device_type: rk3288_veyron_jaq
-    test_plans: [boot, boot_nfs, sleep, usb, v4l2_compliance_uvc, igt, cros_ec]
+    test_plans:
+      - baseline
+      - boot
+      - boot_nfs
+      - cros_ec
+      - igt
+      - sleep
+      - usb
+      - v4l2_compliance_uvc
 
   - device_type: salvator_x
     test_plans: [boot, boot_nfs, kselftest, simple]
