@@ -19,6 +19,12 @@ file_system_types:
       armhf: [{arch: arm}]
       amd64: [{arch: x86_64}]
 
+  debian_staging:
+    url: 'http://staging-storage.kernelci.org/images/rootfs/debian'
+    arch_map:
+      armhf: [{arch: arm}]
+      amd64: [{arch: x86_64}]
+
 
 file_systems:
 
@@ -33,6 +39,10 @@ file_systems:
   buildroot_kselftest_ramdisk:
     type: buildroot
     ramdisk: '{arch}/tests/rootfs.cpio.gz'
+
+  debian_buster_ramdisk:
+    type: debian_staging
+    ramdisk: 'buster/20190531.0/{arch}/rootfs.cpio.gz'
 
   debian_stretch_ramdisk:
     type: debian
@@ -94,7 +104,7 @@ test_plans:
     pattern: 'boot/generic-qemu-boot-template.jinja2'
 
   cros_ec:
-    rootfs: debian_stretch_ramdisk
+    rootfs: debian_buster_ramdisk
 
   igt:
     rootfs: debian_stretch-igt_ramdisk
@@ -105,18 +115,18 @@ test_plans:
       - whitelist: {defconfig: ['kselftest']}
 
   simple:
-    rootfs: debian_stretch_ramdisk
+    rootfs: debian_buster_ramdisk
 
   simple_qemu:
     name: simple
-    rootfs: debian_stretch_ramdisk
+    rootfs: debian_buster_ramdisk
     pattern: 'simple/generic-qemu-simple-template.jinja2'
 
   sleep:
-    rootfs: debian_stretch_ramdisk
+    rootfs: debian_buster_ramdisk
 
   usb:
-    rootfs: debian_stretch_ramdisk
+    rootfs: debian_buster_ramdisk
 
   v4l2_compliance_uvc:
     name: v4l2-compliance-uvc
