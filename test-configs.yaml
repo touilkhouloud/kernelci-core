@@ -48,13 +48,13 @@ file_systems:
     type: debian_staging
     ramdisk: 'buster/20190531.0/{arch}/rootfs.cpio.gz'
 
+  debian_buster-igt_ramdisk:
+    type: debian
+    ramdisk: 'buster-igt/20190603.2/{arch}/rootfs.cpio.gz'
+
   debian_stretch_ramdisk:
     type: debian
     ramdisk: 'stretch/20190531.0/{arch}/rootfs.cpio.gz'
-
-  debian_stretch-igt_ramdisk:
-    type: debian
-    ramdisk: 'stretch-igt/20190531.0/{arch}/rootfs.cpio.gz'
 
   debian_stretch-v4l2_ramdisk:
     type: debian
@@ -116,7 +116,7 @@ test_plans:
     rootfs: debian_buster_ramdisk
 
   igt:
-    rootfs: debian_stretch-igt_ramdisk
+    rootfs: debian_buster-igt_ramdisk
 
   kselftest:
     rootfs: buildroot_kselftest_ramdisk
