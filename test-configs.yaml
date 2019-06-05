@@ -591,8 +591,7 @@ device_types:
     filters:
       - blacklist: {defconfig: ['allnoconfig', 'allmodconfig']}
 
-  meson_gxm_khadas_vim2:
-    name: 'meson-gxm-khadas-vim2'
+  meson-gxm-khadas-vim2:
     mach: amlogic
     class: arm64-dtb
     boot_method: uboot
@@ -1108,7 +1107,7 @@ test_configs:
   - device_type: meson_gxl_s905x_libretech_cc
     test_plans: [boot, kselftest, simple]
 
-  - device_type: meson_gxm_khadas_vim2
+  - device_type: meson-gxm-khadas-vim2
     test_plans: [boot, kselftest, simple, boot_nfs]
 
   - device_type: m3ulcb
